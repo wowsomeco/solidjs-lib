@@ -1,52 +1,33 @@
-import type { Instance } from '@popperjs/core';
-import { createPopper, Placement } from '@popperjs/core';
-import clsx from 'clsx';
+import 'tippy.js/dist/tippy.css';
+
 import { onCleanup, onMount } from 'solid-js';
+import tippy, { Instance, Placement } from 'tippy.js';
 
 export interface TooltipOptions {
   text: string;
   disabled?: boolean;
   placement?: Placement;
-  cls?: string;
 }
 
 const tooltip = (el: HTMLElement, value: () => TooltipOptions): void => {
-  let popperInstance: Instance;
+  let tippyInstance: Instance;
 
   onMount(() => {
-    const {
-      text,
-      placement = 'top',
-      cls = 'border rounded p-1 bg-gray-700	text-gray-50',
-      disabled = false
-    } = value();
+    const { text, placement = 'top', disabled = false } = value();
 
     if (disabled) return;
 
-    const tooltipEl = document.createElement('div');
-    tooltipEl.innerHTML = text;
-    tooltipEl.className = clsx(cls);
-    document.body.appendChild(tooltipEl);
-
-    popperInstance = createPopper(el, tooltipEl, {
+    tippyInstance = tippy(el, {
       placement,
-      modifiers: [
-        {
-          name: 'offset',
-          options: {
-            offset: [0, 8]
-          }
-        }
-      ]
+      content: text
     });
 
     const show = () => {
-      tooltipEl.style.display = 'block';
-      popperInstance.update();
+      tippyInstance?.show();
     };
 
     const hide = () => {
-      tooltipEl.style.display = 'none';
+      tippyInstance?.hide();
     };
 
     const showEvents = ['mouseenter', 'focus'];
@@ -65,7 +46,8 @@ const tooltip = (el: HTMLElement, value: () => TooltipOptions): void => {
   });
 
   onCleanup(() => {
-    popperInstance?.destroy();
+    tippyInstance?.destroy();
+    tippyInstance = undefined;
   });
 };
 
