@@ -25,8 +25,7 @@ const Btn: Component<BtnProps> = (props: BtnProps) => {
       use:ripple
       use:tooltip={{
         text: props.tooltip,
-        disabled: props.tooltip === undefined,
-        cls: 'bg-gray-500 text-gray-50 p-1 rounded-sm'
+        disabled: props.tooltip === undefined
       }}
     >
       {props.children}
