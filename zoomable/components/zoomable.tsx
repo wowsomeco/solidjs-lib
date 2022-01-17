@@ -19,7 +19,7 @@ const ZoomBtn: Component<ZoomBtnProps> = (props) => {
     <button
       class={clsx(
         'border px-2 py-1 h-full',
-        props.disabled ? 'bg-gray-100 text-gray-500' : 'text-blue-500'
+        props.disabled ? 'bg-gray-100 text-gray-500' : 'bg-white text-blue-500'
       )}
       onClick={() => !props.disabled && props.onClick()}
     >
@@ -105,7 +105,7 @@ const Zoomable: Component<ZoomableProps> = (props) => {
           onClick={zoomOut}
           disabled={props.zoom === 0}
         ></ZoomBtn>
-        <div class='border-b border-t p-1 h-full text-gray-500'>
+        <div class='bg-white border-b border-t p-1 h-full text-gray-500'>
           {percentage()}
         </div>
         <ZoomBtn
