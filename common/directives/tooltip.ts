@@ -3,6 +3,8 @@ import 'tippy.js/dist/tippy.css';
 import { onCleanup, onMount } from 'solid-js';
 import tippy, { Instance, Placement } from 'tippy.js';
 
+import Hoverable from '../utils/hoverable';
+
 export interface TooltipOptions {
   text: string;
   disabled?: boolean;
@@ -11,6 +13,7 @@ export interface TooltipOptions {
 
 const tooltip = (el: HTMLElement, value: () => TooltipOptions): void => {
   let tippyInstance: Instance;
+  let hoverable: Hoverable;
 
   onMount(() => {
     const { text, placement = 'top', disabled = false } = value();
@@ -30,22 +33,15 @@ const tooltip = (el: HTMLElement, value: () => TooltipOptions): void => {
       tippyInstance?.hide();
     };
 
-    const showEvents = ['mouseenter', 'focus'];
-    const hideEvents = ['mouseleave', 'blur'];
-
-    showEvents.forEach((event) => {
-      el.addEventListener(event, show);
-    });
-
-    hideEvents.forEach((event) => {
-      el.addEventListener(event, hide);
-    });
+    hoverable = new Hoverable(el, { onEnter: show, onLeave: hide });
 
     // hide initially
     hide();
   });
 
   onCleanup(() => {
+    hoverable?.cleanup();
+
     tippyInstance?.destroy();
     tippyInstance = undefined;
   });

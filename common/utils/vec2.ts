@@ -7,6 +7,10 @@ class Vector2 {
     return new Vector2(x, y);
   }
 
+  static add(v1: Vector2, v2: Vector2): Vector2 {
+    return new Vector2(v1.x + v2.x, v1.y + v2.y);
+  }
+
   static clone(other: Vector2): Vector2 {
     return new Vector2(other.x, other.y);
   }
@@ -27,9 +31,11 @@ class Vector2 {
     this._y = v;
   }
 
-  add(x: number, y: number): void {
+  add(x: number, y: number): Vector2 {
     this.x += x;
     this.y += y;
+
+    return this;
   }
 
   constructor(private _x: number, private _y: number) {}

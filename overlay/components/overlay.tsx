@@ -35,7 +35,7 @@ const Overlay: Component<OverlayProps> = (props) => {
       {props.open ? (
         <div
           style={{ 'background-color': rgba, 'z-index': props.zIndex ?? 9999 }}
-          className='absolute w-full h-full top-0 left-0 z-50'
+          class='absolute w-full h-full top-0 left-0 z-50'
         >
           {props.children}
         </div>
