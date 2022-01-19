@@ -8,7 +8,7 @@ import type { CommonProps } from '~components/props';
 interface FontAwesomeIconProps extends CommonProps {
   iconName: IconName;
   prefix?: IconPrefix;
-  onClick?: () => void;
+  onClick?: (e: Event) => void;
 }
 
 const FontAwesomeIcon: Component<FontAwesomeIconProps> = (

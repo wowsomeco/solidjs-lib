@@ -83,7 +83,7 @@ const InputField: Component<InputFieldProps> = (props: InputFieldProps) => {
       {props.clearable && (
         <FontAwesomeIcon
           onClick={clear}
-          class='cursor-pointer text-gray-500'
+          class='cursor-pointer text-gray-500 hover:text-blue-500'
           prefix='fas'
           iconName='times-circle'
         />

@@ -1,21 +1,37 @@
 import type { Instance } from '@popperjs/core';
 import { createPopper } from '@popperjs/core';
 import clsx from 'clsx';
-import type { JSX, PropsWithChildren } from 'solid-js';
+import type { Accessor, Component, JSX, PropsWithChildren } from 'solid-js';
 import { createSignal, onCleanup } from 'solid-js';
 
 import clickOutside from '~directives/clickOutside';
+import type { CommonProps } from '~lib/common/components/props';
 import { KeyEventBinder } from '~lib/common/utils/keyEventBinder';
 import FontAwesomeIcon from '~lib/font-awesome/components/FontAwesomeIcon';
 import InputField from '~lib/input-field/components/inputField';
 
-interface SelectProps<TData> extends PropsWithChildren {
+interface SelectProps<TData> extends PropsWithChildren, CommonProps {
   renderValue?: () => string;
   renderItem: (item: TData) => JSX.Element;
   options: TData[];
   onChange: (item: TData) => void;
   loading?: boolean;
+  placeholder?: string;
 }
+
+const ArrowIcon: Component<{
+  showing: boolean;
+  onClick: (e: Event) => void;
+}> = (props) => {
+  return (
+    <FontAwesomeIcon
+      class='cursor-pointer'
+      prefix='fas'
+      iconName={props.showing ? 'angle-up' : 'angle-down'}
+      onClick={props.onClick}
+    />
+  );
+};
 
 const Select = <TData extends Record<string, any>>(
   props: SelectProps<TData>
@@ -41,6 +57,10 @@ const Select = <TData extends Record<string, any>>(
     input.blur();
 
     setShowing(false);
+  };
+
+  const toggle = () => {
+    showing() ? hide() : show();
   };
 
   const clickItem = (item: TData) => {
@@ -91,14 +111,21 @@ const Select = <TData extends Record<string, any>>(
 
   return (
     <>
-      <div ref={container} use:clickOutside={() => hide()}>
+      <div ref={container} use:clickOutside={() => hide()} class={props.class}>
         <InputField
+          placeholder={props.placeholder}
           value={props.renderValue() ?? null}
           onFocus={show}
           ref={onRef}
           loading={props.loading}
           readOnly
-          postfix={<FontAwesomeIcon prefix='fas' iconName='angle-down' />}
+          postfix={
+            showing() ? (
+              <ArrowIcon showing onClick={toggle} />
+            ) : (
+              <ArrowIcon showing={false} onClick={toggle} />
+            )
+          }
         />
       </div>
       <div

@@ -6,7 +6,7 @@ import type { CommonProps } from '~components/props';
 import type { FormErr } from '../hooks/useForm';
 
 interface FieldProps extends CommonProps, PropsWithChildren {
-  label: string;
+  label?: string;
   labelClass?: string;
   key: string;
   error: Store<FormErr>;
@@ -15,7 +15,9 @@ interface FieldProps extends CommonProps, PropsWithChildren {
 const FormField: Component<FieldProps> = (props: FieldProps) => {
   return (
     <>
-      <label class={props.labelClass ?? 'text-blue-500'}>{props.label}</label>
+      {props.label && (
+        <label class={props.labelClass ?? 'text-blue-500'}>{props.label}</label>
+      )}
       {props.children}
       {props.error[props.key] && (
         <p class='text-red-500'>{props.error[props.key]}</p>

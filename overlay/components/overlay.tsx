@@ -3,6 +3,7 @@ import { onCleanup } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { toRgba } from '~lib/common/extensions/strings';
+import { Z_INDEX_OVERLAY } from '~lib/common/scripts/constants';
 import { KeyEventBinder } from '~lib/common/utils/keyEventBinder';
 
 export interface OverlayProps extends PropsWithChildren {
@@ -17,7 +18,7 @@ export interface OverlayProps extends PropsWithChildren {
 
 const Overlay: Component<OverlayProps> = (props) => {
   const keyBinder = KeyEventBinder.init().on('keydown', ['Escape'], () => {
-    if (props.open) return false;
+    if (!props.open) return false;
 
     props.onClose?.();
 
@@ -34,8 +35,11 @@ const Overlay: Component<OverlayProps> = (props) => {
     <Portal mount={document.body}>
       {props.open ? (
         <div
-          style={{ 'background-color': rgba, 'z-index': props.zIndex ?? 9999 }}
-          class='absolute w-full h-full top-0 left-0 z-50'
+          style={{
+            'background-color': rgba,
+            'z-index': props.zIndex ?? Z_INDEX_OVERLAY
+          }}
+          class='absolute w-full h-full top-0 left-0'
         >
           {props.children}
         </div>

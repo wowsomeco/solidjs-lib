@@ -4,6 +4,7 @@ import { createSignal, For } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import transition from '~directives/transition';
+import { Z_INDEX_NOTIF } from '~lib/common/scripts/constants';
 import FontAwesomeIcon from '~lib/font-awesome/components/FontAwesomeIcon';
 
 import type { NotifOptions } from '../contexts/context';
@@ -12,6 +13,7 @@ import useNotif from '../contexts/context';
 interface NotifProps {
   /** Appearance duration in ms */
   duration: number;
+  zIndex?: number;
 }
 
 const Notif: Component<NotifProps> = (props: NotifProps) => {
@@ -32,7 +34,11 @@ const Notif: Component<NotifProps> = (props: NotifProps) => {
 
   return (
     <Portal mount={document.body}>
-      <div class='w-64 fixed bottom-0 right-0 p-2' ref={ref}>
+      <div
+        style={{ 'z-index': props.zIndex ?? Z_INDEX_NOTIF }}
+        class='w-64 fixed bottom-0 right-0 p-2'
+        ref={ref}
+      >
         <For each={notifs()}>
           {(notif, i) => {
             return (
