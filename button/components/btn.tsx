@@ -10,7 +10,7 @@ export interface BtnProps extends PropsWithChildren, CommonProps {
   type?: 'submit' | 'reset' | 'button';
   loading?: boolean;
   loadingColor?: string;
-  onClick?: () => void;
+  onClick?: (e: Event) => void;
   tooltip?: string;
 }
 
@@ -18,8 +18,8 @@ const Btn: Component<BtnProps> = (props: BtnProps) => {
   return (
     <button
       type={props.type ?? 'button'}
-      onclick={() => {
-        !props.loading && props.onClick?.();
+      onclick={(e) => {
+        !props.loading && props.onClick?.(e);
       }}
       class={clsx(props.class, 'flex items-center justify-center')}
       use:ripple

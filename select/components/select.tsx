@@ -17,6 +17,7 @@ interface SelectProps<TData> extends PropsWithChildren, CommonProps {
   onChange: (item: TData) => void;
   loading?: boolean;
   placeholder?: string;
+  disabled?: boolean;
 }
 
 const ArrowIcon: Component<{
@@ -111,7 +112,11 @@ const Select = <TData extends Record<string, any>>(
 
   return (
     <>
-      <div ref={container} use:clickOutside={() => hide()} class={props.class}>
+      <div
+        ref={container}
+        use:clickOutside={() => hide()}
+        class={clsx(props.class, props.disabled && 'pointer-events-none')}
+      >
         <InputField
           placeholder={props.placeholder}
           value={props.renderValue() ?? null}
