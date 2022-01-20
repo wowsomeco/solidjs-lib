@@ -46,7 +46,9 @@ const Zoomable: Component<ZoomableProps> = (props) => {
   let dragHandler: Draggable;
 
   const transformCss = () =>
-    `scale(${props.zoom}, ${props.zoom}) translate3d(${props.pos.x}px, ${props.pos.y}px, 0)`;
+    `scale(${props.zoom}, ${props.zoom}) translate3d(${
+      props.pos.x / props.zoom
+    }px, ${props.pos.y / props.zoom}px, 0)`;
 
   const percentage = () => `${Math.floor(props.zoom * 100)}%`;
 
