@@ -54,7 +54,7 @@ export const useForm = <TModel extends Record<string, any>>(
 
     if (loading()) return;
 
-    const err = props.validate(model, props.key);
+    const err = props.validate(model as TModel, props.key);
     setErrors(err);
 
     if (err) {
@@ -67,7 +67,7 @@ export const useForm = <TModel extends Record<string, any>>(
 
     if (canSubmit) {
       setLoading(true);
-      await props.onSubmit(model, props.key);
+      await props.onSubmit(model as TModel, props.key);
       setLoading(false);
     }
   };
